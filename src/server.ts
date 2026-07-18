@@ -1,22 +1,10 @@
 import express from 'express';
+import customerRouter from './routes/customer.route.ts';
 
 const app = express()
 
 app.use(express.json());
 
-app.get('/customers', (req, res) => {
-    const customers = [{
-        name: 'ivo',
-        status: 'true'
-    }, {
-        name: 'arthur',
-        status: 'true'
-    }, {
-        name: 'davi',
-        status: 'false'
-    }];
-
-    res.status(200).json(customers);
-});
+app.use('/customers' , customerRouter);
 
 app.listen(3000);
