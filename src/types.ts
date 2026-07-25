@@ -3,3 +3,5 @@ export type Customer = {
     name: string;
     status: boolean;
 }
+
+export type CreateCustomer = Omit<Customer, 'id' | 'status'>;
