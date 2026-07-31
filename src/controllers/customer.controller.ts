@@ -32,3 +32,10 @@ export function updateCustomer(request: Request , response: Response) {
     
     response.status(200).json(customer);
 };
+
+export function deleteCustomer (request: Request, response: Response) {
+    const id = Number(request.params.id);
+
+    CustomerService.removeCustomer(id);
+    response.status(204).send();
+}
