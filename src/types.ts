@@ -4,4 +4,5 @@ export type Customer = {
     status: boolean;
 }
 
-export type CreateCustomer = Omit<Customer, 'id' | 'status'>;
+export type CreateCustomer = Pick<Customer, 'name'>;
+export type updateCustomerCustomer = Omit<Customer, 'id'>;

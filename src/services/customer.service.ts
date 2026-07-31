@@ -26,7 +26,7 @@ export function insertCustomer(name: string) {
     return customer;
 }
 
-export function modifyCustomer(id: number, name: string, status: Boolean) {
+export function modifyCustomer(id: number, name: string, status: boolean) {
     const customer = customers.find((customer) => customer.id === id)
 
     if (!customer) {
