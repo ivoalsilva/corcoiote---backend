@@ -5,6 +5,7 @@ const customers: Customer[] = [{
     name: 'Alex Bessa',
     status: true
 }, {
+    
     id: 2,
     name: 'Valdiana Bessa',
     status: true
