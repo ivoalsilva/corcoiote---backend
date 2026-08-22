@@ -3,7 +3,7 @@ services:
     image: postgres:17
     environment:
       POSTGRES_USER: admin
-      POSTEGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: admin
       POSTGRES_DB: corcoiote
     ports:
       - "5432:5432"

@@ -13,4 +13,4 @@ app.use('/customers', CustomerRouter);
 
 app.use(errorHandler);
 
-app.listen(3000);
+app.listen(Number(process.env.PORT));
