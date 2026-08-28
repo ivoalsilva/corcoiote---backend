@@ -4,14 +4,42 @@ datasource db {
 
 generator client {
     provider = "prisma-client"
-    output = "./src/generated/"
+    output = ".generated"
 }
 
 model User {
-id Int @id @default(autoincrement())
-name String
-email String @unique
-createdAt DateTime @default(now()) @map("create_at")
+    id          Int         @id                 @default(autoincrement())
+    name        String
+    email       String      @unique
+    createdAt   DateTime    @default(now())     @map("create_at")
 
 @@map("users")
+}
+
+model Customer {
+    id          Int         @id @default(autoincrement())
+    name        String
+    email       String      @unique
+    imageUrl    String?     @map("image_url")
+    createdAt   DateTime    @default(now())     @map("create_at")
+    Invoice     Invoice[]
+
+    @@map("customers")
+}
+
+enum InvoiceStatus{
+    PENDING
+    PAID
+}
+
+model Invoice {
+    id          Int         @id                 @default(autoincrement())
+    amount      Int
+    status      InvoiceStatus
+    date        DateTime
+    customerId  Int
+
+    customer    Customer    @relation       (fields: [customerId], references: [id], onDelete: Cascade)
+
+    @@map("incoices")
 }
