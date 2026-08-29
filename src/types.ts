@@ -1,5 +1,12 @@
 export type Customer = {
     id: number;
     name: string;
-    status: boolean;
+    email: string;
+    imageUrl: string | null;
+    createdAt: Date;
+}
+
+export type ValidationFielError = {
+    fiel: string;
+    message: string;
 }
