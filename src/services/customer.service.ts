@@ -1,16 +1,16 @@
 import { NotFoundError } from "../errors/index.ts";
-import customers from "../mocks/customer.mock.ts";
-import type { UpdateCustomer } from "../schemas/customer.schema.ts";
+import type { CreateCustomer, UpdateCustomer } from "../schemas/customer.schema.ts";
 import type { Customer } from "../types.ts";
+import prisma from "../lib/prisma.ts";
 
-export function findAllCustomer(): Customer[] {
+export async function findAllCustomer(): Promise<Customer[]> {
+    const customers = await prisma.customer.findMany();
+
     return customers;
 }
 
-export function findCustomerById(id: number) {
-    const customer = customers.find(
-        (customer) => customer.id === id
-    );
+export async function findCustomerById(id: number): Promise<Customer> {
+    const customer = await prisma.customer.findUnique({ where: { id }});
 
     if (!customer) {
         throw new NotFoundError(`Cliente de id ${id} não encontrado.`);
@@ -19,47 +19,28 @@ export function findCustomerById(id: number) {
     return customer;
 }
 
-export function insertCustomer(name: string) {
-    const id = customers[customers.length - 1].id;
-
-    const customer: Customer = {
-        id: id + 1,
-        name,
-        status: true
-    };
-
-    customers.push(customer);
+export function insertCustomer({name, email, imageUrl}: CreateCustomer): Promise<Customer> {
+    const customer = prisma.customer.create({data: {name, email, imageUrl}});
 
     return customer;
 }
 
-export function modifyCustomer(
+export async function modifyCustomer(
     id: number,
-    { name, status }: UpdateCustomer
-) {
-    const customer = customers.find(
-        (customer) => customer.id === id
-    );
+    { name, email, imageUrl }: UpdateCustomer
+): Promise<Customer> {
+    await findCustomerById(id);
 
-    if (!customer) {
-        throw new NotFoundError(`Cliente de id ${id} não encontrado.`);
-    }
-
-    if (name) customer.name = name;
-    if (status !== undefined) customer.status = status;
+    const customer = await prisma.customer.update({where: {id} , data: {
+        name, email, imageUrl
+    }})
 
     return customer;
 
 }
 
-export function removeCustomer(id: number) {
-    const index = customers.findIndex(
-        (customer) => customer.id === id
-    );
+export async function removeCustomer(id: number) {
+    await findCustomerById(id);
 
-    if (index === -1) {
-        throw new NotFoundError(`Cliente de id ${id} não encontrado.`);
-    }
-
-    customers.splice(index, 1);
+    await prisma.customer.delete({where: {id}});
 }

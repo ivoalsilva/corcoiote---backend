@@ -26,27 +26,27 @@ export function createCustomer(
     request: Request,
     response: Response
 ): void {
-    const { name } = request.body as CreateCustomer;
+    const { name, email, imageUrl } = request.body as CreateCustomer;
 
-    const customer = CustomerService.insertCustomer(name);
+    const customer = CustomerService.insertCustomer({name, email, imageUrl});
 
     response.status(201).json(customer);
 }
 
-export function updateCustomer(request: Request, response: Response) {
+export function updateCustomer(request: Request, response: Response): void {
     const id = Number(request.params.id);
 
-    const { name, status } = request.body as UpdateCustomer;
+    const { name, email, imageUrl } = request.body as UpdateCustomer;
 
     const customer = CustomerService.modifyCustomer(
         id,
-       { name, status }
+       { name, email, imageUrl }
     );
 
     response.status(200).json(customer);
 }
 
-export function deleteCustomer(request: Request, response: Response) {
+ export function deleteCustomer(request: Request, response: Response): void {
     const id = Number(request.params.id);
 
     CustomerService.removeCustomer(id);
