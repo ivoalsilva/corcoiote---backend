@@ -11,6 +11,7 @@ export class NotFoundError extends Error {
 
 export class ValidationError extends Error {
     statusCode: number;
+
     fields: ValidationFieldError[];
 
     constructor(message: string, fields: ValidationFieldError[]) {

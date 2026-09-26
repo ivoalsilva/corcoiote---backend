@@ -3,6 +3,7 @@ import type {
     Request,
     Response
 } from 'express';
+
 import { NotFoundError, ValidationError } from '../errors/index.ts';
 
 export default function errorHandler(
@@ -20,7 +21,8 @@ export default function errorHandler(
         response.status(error.statusCode).json({
             message: error.message,
             fields: error.fields
-        })
+        });
+        return;
     }
 
     response.status(500).json({ message: 'Erro interno do servidor.' });
