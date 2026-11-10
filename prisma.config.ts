@@ -3,15 +3,15 @@ import process, { loadEnvFile } from 'node:process';
 import { defineConfig } from 'prisma/config';
 
 if (existsSync('./.env')) {
-  loadEnvFile('./.env');
+	loadEnvFile('./.env');
 }
 
 export default defineConfig({
-  schema: './prisma/schema.prisma',
-  migrations: {
-    path: './prisma/migrations'
-  },
-  datasource: {
-    url: process.env.DATABASE_URL
-  }
+	schema: './prisma/schema.prisma',
+	migrations: {
+		path: './prisma/migrations',
+	},
+	datasource: {
+		url: process.env.DATABASE_URL,
+	},
 });

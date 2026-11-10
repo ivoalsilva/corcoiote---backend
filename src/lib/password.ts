@@ -2,32 +2,33 @@ import { randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 
 const scryptAsync = promisify(scrypt) as (
-  password: string,
-  salt: string,
-  keyLength: number
+	password: string,
+	salt: string,
+	keyLength: number,
 ) => Promise<Buffer>;
 
 const KEY_LENGTH = 64;
 
 export async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16).toString('hex');
-  const hash = await scryptAsync(password, salt, KEY_LENGTH);
+	const salt = randomBytes(16).toString('hex');
+	const hash = await scryptAsync(password, salt, KEY_LENGTH);
 
-  return `${salt}:${hash.toString('hex')}`;
+	return `${salt}:${hash.toString('hex')}`;
 }
 
 export async function verifyPassword(
-  password: string,
-  storedHash: string
+	password: string,
+	storedHash: string,
 ): Promise<boolean> {
-  const [salt, hash] = storedHash.split(':');
+	const [salt, hash] = storedHash.split(':');
 
-  if (!salt || !hash) return false;
+	if (!salt || !hash) return false;
 
-  const hashBuffer = Buffer.from(hash, 'hex');
-  const derived = await scryptAsync(password, salt, KEY_LENGTH);
+	const hashBuffer = Buffer.from(hash, 'hex');
+	const derived = await scryptAsync(password, salt, KEY_LENGTH);
 
-  return (
-    hashBuffer.length === derived.length && timingSafeEqual(hashBuffer, derived)
-  );
+	return (
+		hashBuffer.length === derived.length &&
+		timingSafeEqual(hashBuffer, derived)
+	);
 }

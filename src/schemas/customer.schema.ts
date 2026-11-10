@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const createCustomerSchema = z.object({
-  name: z.string().min(1),
-  email: z.email(),
-  imageUrl: z.url().optional(),
+	name: z.string().min(1),
+	email: z.email(),
+	imageUrl: z.url().optional(),
 });
 
 export const updateCustomerSchema = createCustomerSchema.partial();

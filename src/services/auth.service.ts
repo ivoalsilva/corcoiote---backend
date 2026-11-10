@@ -6,16 +6,16 @@ import type { Login } from '../schemas/auth.schema.ts';
 import type { PublicUser } from '../types.ts';
 
 export async function login({
-  email,
-  password
+	email,
+	password,
 }: Login): Promise<{ token: string; user: PublicUser }> {
-  const user = await prisma.user.findUnique({ where: { email } });
+	const user = await prisma.user.findUnique({ where: { email } });
 
-  if (!user || !(await verifyPassword(password, user.password))) {
-    throw new UnauthorizedError('E-mail ou senha inválidos.');
-  }
+	if (!user || !(await verifyPassword(password, user.password))) {
+		throw new UnauthorizedError('E-mail ou senha inválidos.');
+	}
 
-  const { password: _password, ...publicUser } = user;
+	const { password: _password, ...publicUser } = user;
 
-  return { token: signToken(user.id), user: publicUser };
+	return { token: signToken(user.id), user: publicUser };
 }

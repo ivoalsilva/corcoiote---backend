@@ -1,12 +1,12 @@
-import cors from "cors";
-import express from "express";
-import authenticate from "./middlewares/authenticate.ts";
-import errorHandler from "./middlewares/errorHandler.ts";
-import requestLogger from "./middlewares/requestLogger.ts";
-import AuthRouter from "./routes/auth.route.ts";
-import CustomerRouter from "./routes/customer.route.ts";
-import InvoiceRouter from "./routes/invoice.route.ts";
-import UserRouter from "./routes/user.route.ts";
+import cors from 'cors';
+import express from 'express';
+import authenticate from './middlewares/authenticate.ts';
+import errorHandler from './middlewares/errorHandler.ts';
+import requestLogger from './middlewares/requestLogger.ts';
+import AuthRouter from './routes/auth.route.ts';
+import CustomerRouter from './routes/customer.route.ts';
+import InvoiceRouter from './routes/invoice.route.ts';
+import UserRouter from './routes/user.route.ts';
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -14,17 +14,17 @@ const app = express();
 
 app.use(requestLogger);
 
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") ?? "*" }));
+app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') ?? '*' }));
 
 app.use(express.json());
 
-app.use("/auth", AuthRouter);
-app.use("/customers", authenticate, CustomerRouter);
-app.use("/invoices", authenticate, InvoiceRouter);
-app.use("/users", UserRouter);
+app.use('/auth', AuthRouter);
+app.use('/customers', authenticate, CustomerRouter);
+app.use('/invoices', authenticate, InvoiceRouter);
+app.use('/users', UserRouter);
 
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+	console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
