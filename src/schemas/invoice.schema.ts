@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const createInvoiceSchema = z.object({
   amount: z
     .number('Entrada inválida: esperava-se um número.')
-    .int()
-    .positive(),
+    .int('O valor deve ser um número inteiro (em centavos).')
+    .positive('O valor deve ser maior que zero.'),
   status: z.enum(['PENDING', 'PAID']),
   date: z.coerce.date(),
   customerId: z
