@@ -8,6 +8,7 @@ import { Prisma } from '../../prisma/generated/client.ts';
 import {
     ConflictError,
     NotFoundError,
+    UnauthorizedError,
     ValidationError
 } from '../errors/index.ts';
 
@@ -28,7 +29,11 @@ export default function errorHandler(
     response: Response,
     _next: NextFunction
 ) {
-    if (error instanceof NotFoundError || error instanceof ConflictError) {
+    if (
+        error instanceof NotFoundError ||
+        error instanceof ConflictError ||
+        error instanceof UnauthorizedError
+    ) {
         response.status(error.statusCode).json({ message: error.message });
         return;
     }
