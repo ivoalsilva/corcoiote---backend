@@ -1,10 +1,9 @@
 import type { Request, Response } from 'express';
-import { ValidationError } from '../errors/index.ts';
-import {
-  type CreateInvoice,
-  pageQuerySchema,
-  type UpdateInvoice
+import type {
+  CreateInvoice,
+  UpdateInvoice
 } from '../schemas/invoice.schema.ts';
+import { parsePage } from '../schemas/page.schema.ts';
 import * as InvoiceService from '../services/invoice.service.ts';
 import parseId from '../utils/parseId.ts';
 
@@ -12,15 +11,9 @@ export async function getAllInvoices(
   request: Request,
   response: Response
 ): Promise<void> {
-  const result = pageQuerySchema.safeParse(request.query);
+  const page = parsePage(request.query);
 
-  if (!result.success) {
-    throw new ValidationError('Dados inválidos.', [
-      { field: 'page', message: 'A página deve ser um inteiro positivo.' }
-    ]);
-  }
-
-  const invoices = await InvoiceService.findAllInvoices(result.data);
+  const invoices = await InvoiceService.findAllInvoices(page);
 
   response.status(200).json(invoices);
 }

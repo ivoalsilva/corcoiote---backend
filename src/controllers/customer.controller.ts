@@ -5,14 +5,16 @@ import type {
   UpdateCustomer,
 } from "../schemas/customer.schema.ts";
 
+import { parsePage } from "../schemas/page.schema.ts";
 import * as CustomerService from "../services/customer.service.ts";
 import parseId from "../utils/parseId.ts";
 
 export async function getAllCustomers(
-  _request: Request,
+  request: Request,
   response: Response,
 ): Promise<void> {
-  const customers = await CustomerService.findAllCustomer();
+  const page = parsePage(request.query);
+  const customers = await CustomerService.findAllCustomer(page);
   response.status(200).json(customers);
 }
 

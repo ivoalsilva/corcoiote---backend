@@ -15,9 +15,5 @@ export const createInvoiceSchema = z.object({
 
 export const updateInvoiceSchema = createInvoiceSchema.partial();
 
-export const pageQuerySchema = z.object({
-  page: z.coerce.number().int().positive().default(1)
-});
-
 export type CreateInvoice = z.infer<typeof createInvoiceSchema>;
 export type UpdateInvoice = z.infer<typeof updateInvoiceSchema>;

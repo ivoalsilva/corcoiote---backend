@@ -5,12 +5,18 @@ import type {
   UpdateCustomer,
 } from "../schemas/customer.schema.ts";
 
-import type { Customer } from "../types.ts";
+import type { Customer, Page } from "../types.ts";
 
 import prisma from "../lib/prisma.ts";
 
-export async function findAllCustomer(): Promise<Customer[]> {
-  const customers = await prisma.customer.findMany();
+const PAGE_SIZE = 10;
+
+export async function findAllCustomer({ page }: Page): Promise<Customer[]> {
+  const customers = await prisma.customer.findMany({
+    orderBy: { name: "asc" },
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
+  });
 
   return customers;
 }
