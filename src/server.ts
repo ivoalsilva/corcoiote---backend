@@ -3,6 +3,7 @@ import errorHandler from "./middlewares/errorHandler.ts";
 import requestLogger from "./middlewares/requestLogger.ts";
 import CustomerRouter from "./routes/customer.route.ts";
 import InvoiceRouter from "./routes/invoice.route.ts";
+import UserRouter from "./routes/user.route.ts";
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/customers", CustomerRouter);
 app.use("/invoices", InvoiceRouter);
+app.use("/users", UserRouter);
 
 app.use(errorHandler);
 

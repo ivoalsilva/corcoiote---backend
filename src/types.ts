@@ -6,6 +6,8 @@ export type User = {
   createdAt: Date;
 };
 
+export type PublicUser = Omit<User, "password">;
+
 export type Customer = {
   id: number;
   name: string;
