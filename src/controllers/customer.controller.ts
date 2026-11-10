@@ -6,22 +6,32 @@ import type {
 } from "../schemas/customer.schema.ts";
 
 import * as CustomerService from "../services/customer.service.ts";
+import parseId from "../utils/parseId.ts";
 
-export function getAllCustomers(_request: Request, response: Response): void {
-  const customers = CustomerService.findAllCustomer();
+export async function getAllCustomers(
+  _request: Request,
+  response: Response,
+): Promise<void> {
+  const customers = await CustomerService.findAllCustomer();
   response.status(200).json(customers);
 }
 
-export function getCustomerById(request: Request, response: Response): void {
-  const id = Number(request.params.id);
-  const customer = CustomerService.findCustomerById(id);
+export async function getCustomerById(
+  request: Request,
+  response: Response,
+): Promise<void> {
+  const id = parseId(request.params.id);
+  const customer = await CustomerService.findCustomerById(id);
   response.status(200).json(customer);
 }
 
-export function createCustomer(request: Request, response: Response): void {
+export async function createCustomer(
+  request: Request,
+  response: Response,
+): Promise<void> {
   const { name, email, imageUrl } = request.body as CreateCustomer;
 
-  const customer = CustomerService.insertCustomer({
+  const customer = await CustomerService.insertCustomer({
     name,
     email,
     imageUrl,
@@ -30,12 +40,15 @@ export function createCustomer(request: Request, response: Response): void {
   response.status(201).json(customer);
 }
 
-export function updateCustomer(request: Request, response: Response): void {
-  const id = Number(request.params.id);
+export async function updateCustomer(
+  request: Request,
+  response: Response,
+): Promise<void> {
+  const id = parseId(request.params.id);
 
   const { name, email, imageUrl } = request.body as UpdateCustomer;
 
-  const customer = CustomerService.modifyCustomer(id, {
+  const customer = await CustomerService.modifyCustomer(id, {
     name,
     email,
     imageUrl,
@@ -44,10 +57,13 @@ export function updateCustomer(request: Request, response: Response): void {
   response.status(200).json(customer);
 }
 
-export function deleteCustomer(request: Request, response: Response): void {
-  const id = Number(request.params.id);
+export async function deleteCustomer(
+  request: Request,
+  response: Response,
+): Promise<void> {
+  const id = parseId(request.params.id);
 
-  CustomerService.removeCustomer(id);
+  await CustomerService.removeCustomer(id);
 
   response.status(204).send();
 }
