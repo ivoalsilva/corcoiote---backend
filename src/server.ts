@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import errorHandler from "./middlewares/errorHandler.ts";
 import requestLogger from "./middlewares/requestLogger.ts";
@@ -10,6 +11,8 @@ const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 
 app.use(requestLogger);
+
+app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") ?? "*" }));
 
 app.use(express.json());
 
